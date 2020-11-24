@@ -9,16 +9,16 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 final accel_delay = Duration(seconds: 3);
-final gps_delay = Duration(seconds: 1);
+final gps_delay = Duration(seconds: 3);
 final thread2_delay = Duration(seconds: 10);
 final thread3_delay = Duration(seconds: 15);
 final thread4_delay = Duration(seconds: 20);
-final String vehicleID = 'this vehicle';
+final String vehicleID = 'this is vehicle 1';
 final String upload = "upload";
 final String stagging = "stagging";
 final String compile = "compile";
 final double distance_threshold = 10.0;
-final String databaseurl = "http://digism.xyz:8081/apiv1/ilovejank";
+final String databaseurl = "http://10.1.1.229:3000/apiv1";
 
 void main() => runApp(MyApp());
 
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.green[200],
         appBar: AppBar(
           backgroundColor: Colors.green[300],
           title: Text('EWB APPtech'),
@@ -53,6 +52,7 @@ class _MainStructureState extends State<MainStructure> {
   Location location = new Location();
   var latlong;
   String filename;
+  bool connected = false;
 
   //Main Threads
   Future<void> accelData() async {
@@ -159,6 +159,14 @@ class _MainStructureState extends State<MainStructure> {
       print("hello world 5");
       thread4();
     });
+
+    Timer.periodic(Duration(milliseconds: 250), (timer) async {
+      bool conn = await is_connected();
+      setState(() {
+        connected = conn != null ? conn : false;
+      });
+    });
+
   }
 
   //Display
@@ -169,6 +177,7 @@ class _MainStructureState extends State<MainStructure> {
         padding: const EdgeInsets.all(32),
         child: Column(
           children: [
+            Text(connected ? '🟢 Connected to Internet 😌' : '🟠 Currently Offline 😴' ),
             Align(
               alignment: Alignment.center,
               child: Text(
