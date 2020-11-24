@@ -30,7 +30,7 @@ String generate_filename() {
 
 Future<String> write_file(
     data_array, data_type, filename, folder, vehicleId) async {
-  final Directory directory = await getApplicationDocumentsDirectory();
+  final Directory directory = await getExternalStorageDirectory();
   var new_file = '${directory.path}/${folder}/${filename}.txt';
   final File file = await File(new_file).create(recursive: true);
   print(file);
@@ -48,7 +48,7 @@ Future<bool> movement_detection(filename, folder, distance_threshold) async {
 }
 
 Future<void> move_file(filename, folder_from, folder_to) async {
-  final Directory directory = await getApplicationDocumentsDirectory();
+  final Directory directory = await getExternalStorageDirectory();
   File file = File(
       '${directory.path}/${folder_from}/${filename}.txt'); //gone to file and aquired it
   if (await File(file.path).exists()) {
@@ -67,7 +67,7 @@ Future<void> move_file(filename, folder_from, folder_to) async {
 }
 
 Future<void> delete_file(filename, folder) async {
-  final Directory directory = await getApplicationDocumentsDirectory();
+  final Directory directory = await getExternalStorageDirectory();
 
   final Directory folder_dir =
       await Directory('${directory.path}/${folder}').create(recursive: true);
@@ -81,7 +81,7 @@ Future<void> delete_file(filename, folder) async {
 }
 
 Future<bool> check_folder_empty(folder) async {
-  final Directory directory = await getApplicationDocumentsDirectory();
+  final Directory directory = await getExternalStorageDirectory();
   Directory dir = Directory('${directory.path}/${folder}');
   List files = dir.listSync();
   return files.isEmpty;

@@ -8,7 +8,7 @@ import 'helpers.dart';
 
 final accel_delay = Duration(seconds: 3);
 final gps_delay = Duration(seconds: 10);
-final thread2_delay = Duration(seconds: 20);
+final thread2_delay = Duration(seconds: 30);
 final thread3_delay = Duration(seconds: 50);
 final String vehicleID = 'this vehicle';
 final String upload = "upload";
@@ -87,6 +87,7 @@ class _MainStructureState extends State<MainStructure> {
   //     print('checked!');
   //     if (await is_connected()) {
   //       List file_list = await get_file_list(upload);
+  //        []
   //       file_list.forEach((e) => {upload_delete(databaseurl, e, upload)});
   //     }
   //   }
