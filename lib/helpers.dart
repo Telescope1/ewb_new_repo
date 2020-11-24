@@ -35,12 +35,12 @@ Future<String> write_file(
   final Directory directory = await getExternalStorageDirectory();
   var new_file = '${directory.path}/${folder}/${filename}.txt';
   final File file = await File(new_file).create(recursive: true);
-  print(file);
+  print(data_array);
 
   final data = await file.readAsString();
   final sink = file.openWrite();
   sink.write(data +
-      "$vehicleId, ${uuid.v4()}, ${DateTime.now()}, $data_type, ${data_array.join(",")}\n");
+      "$vehicleId, ${uuid.v4()}, ${DateTime.now()}, ${DateTime.now().timeZoneOffset}, $data_type, ${data_array.join(",")}||");
   sink.close();
   return await file.readAsString();
 }
@@ -106,9 +106,9 @@ Future<List> get_file_list(folder) async {
 }
 
 Future<int> upload_file(url, fileToUpload, folder) async {
+  print('sending to $url');
   var data = await readFile('$fileToUpload.txt', folder);
-  print(data);
-  var response = await http.post(url, body: {'payload': '$data'});
+  var response = await http.post(url, body: {'payload': '$data', 'filename':'$fileToUpload.txt'});
   print(response.statusCode);
   return response.statusCode;
 }
